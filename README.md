@@ -46,10 +46,10 @@ En manuel le robot est controlé par le joystick.
 
 # TACHE A FAIRE
 
-(KYLLIAN et YOUSS) [] faire rouler le robot en fonction du joystick
+(KYLLIAN et YOUSS) [] faire rouler le robot en fonction du joystick VERIFICATION EN ATTENTE
 (KYLLIAN)[x] recuperer les valeur de joystick
 (KYLLIAN et YOUSS)[x] envoier et recevoir les valeurs de joystick
-#(KYLLIAN)[] interpreter les valeurs de joystick afin de controler le robot
+(KYLLIAN)[x] interpreter les valeurs de joystick afin de controler le robot
 
 (KYLLIAN et YOUSS)[] faire la prise d'information du lidar
 (KYLLIAN)[x] recuperer une donne d'angle et de distance par rapport a un mur
