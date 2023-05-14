@@ -43,3 +43,28 @@ Dans les deux mode le bot envoye les informations du lidar tout les XXX centimet
 En automatique le robot suit un mur et tourne quand il detecte un mur devant lui.
 
 En manuel le robot est controlé par le joystick.
+
+# TACHE A FAIRE
+
+(KYLLIAN et YOUSS) [] faire rouler le robot en fonction du joystick
+(KYLLIAN)[x] recuperer les valeur de joystick
+(KYLLIAN et YOUSS)[x] envoier et recevoir les valeurs de joystick
+#(KYLLIAN)[] interpreter les valeurs de joystick afin de controler le robot
+
+(KYLLIAN et YOUSS)[] faire la prise d'information du lidar
+(KYLLIAN)[x] recuperer une donne d'angle et de distance par rapport a un mur
+#(YOUSS)[] recuperation de plusieurs valeurs de lidar
+(YOUSS)[] interpretation en fonction de la position du robot
+(YOUSS)[] adaptation en fonction de l'afficheur
+
+#()[] recuperation des valeurs d'encodeur (distance parcourue)
+#()[] {alternative} recuperation de valeur d'accelerometre et derivation
+
+(LOIC)[] automatisation de la conduite du robot
+(LOIC)[x] recuperation des valeurs de distance avec les capteurs ultrasons
+#()[] interpretation de ses valeurs
+#()[] faire tourner le robot s'il y a un mur devant
+
+OPTIONNELLE
+
+(HAYTAM)[] asservissement des moteurs
