@@ -94,21 +94,23 @@ void MAE() {
   Serial1.write(valy);
 
   // lecture val bluethue
-  if (Serial1.available()) {
-    data = Serial1.read();
+  if (Serial3.available()) {
+    data = Serial3.read();
+    //Serial.println(data);
   }
-
   // force le changement de mode (entre telecomande et auto)
   if (data == 250) {
     if (etat_p == TELECOMANDE) {
       etat_p = INIT;
+      etat_s = etat_p;
     } else {
       etat_p = TELECOMANDE;
+      etat_s = etat_p;
     }
   }
 
   // force le passage en mode evitement du mur en face
-  if (dist_mur_A <= DIST_MAX_A && etat_p != INIT) {
+  if (dist_mur_A <= DIST_MAX_A && etat_p != INIT && etat_p != TELECOMANDE) {
     etat_p = MUR_DV;
     etat_s = MUR_DV;
     distance_a = 0;
@@ -117,7 +119,7 @@ void MAE() {
   }
 
 
-// debut MAE
+  // debut MAE
   switch (etat_p) {
     case INIT:
       {
@@ -188,14 +190,36 @@ void MAE() {
       break;
     case TELECOMANDE:
       {
-        if (data <= 180) {
-          vitesse = map(data, 180, 0, 120, 60);
+        if (data <= 130) {
+          vitesse = data;
         } else {
           diff = data - 200;  //-10
         }
-        if (vitesse && diff) {
-          Deplacement(vitesse,vitesse + diff);
+        if (vitesse > 90) {
+          if(diff != 0)
+          {
+            Deplacement(vitesse+diff,vitesse-diff);
+          }
+          else
+          {
+            Deplacement(vitesse, vitesse);
+
+          }
         }
+        else if (vitesse < 90)
+        {
+          if(diff != 0)
+          {
+            Deplacement(vitesse-diff,vitesse+diff);
+          }
+          else
+          {
+            Deplacement(vitesse, vitesse);
+
+          }
+        }
+        
+        Serial.println("ETAT TELECOMANDE");
       }
       break;
 
@@ -212,14 +236,14 @@ void MAE() {
 void setup() {
 
   Serial.begin(9600);
-
-// capt ultrason
+  Serial3.begin(9600);
+  // capt ultrason
   pinMode(PIN_TRIG_SON_D, OUTPUT);
   pinMode(PIN_ECHO_SON_D, INPUT);
   pinMode(PIN_TRIG_SON_A, OUTPUT);
   pinMode(PIN_ECHO_SON_A, INPUT);
 
-// encodeur
+  // encodeur
   pinMode(PIN_ENCODEUR_JAUNE, INPUT);
   pinMode(PIN_ENCODEUR_VERT, INPUT);
 
