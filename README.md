@@ -63,7 +63,7 @@ En manuel le robot est controlé par le joystick.
 (LOIC)[] automatisation de la conduite du robot
 (LOIC)[x] recuperation des valeurs de distance avec les capteurs ultrasons
 #()[] interpretation de ses valeurs
-#()[] faire tourner le robot s'il y a un mur devant
+#()[HAYTAM] faire tourner le robot s'il y a un mur devant
 
 OPTIONNELLE
 
