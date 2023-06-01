@@ -44,6 +44,11 @@ int joyVal[NUM_JOY] = {0, 0};
 int pixel[200][2];
 int num_pixel = 0;
 
+int x = 0, y = 0;
+
+int tempB = 1000;
+int count = 0;
+
 void setup()
 {
     // put your setup code here, to run once:
@@ -61,30 +66,45 @@ void setup()
 
 void loop()
 {
-    /*
-      String message;
-      while (HC05.available())
-      {
-      delay(3);
-      char c = HC05.read();
-      message += c;
-      }
+    if (master.available())
+    {
+        int data = master.read();
+        Serial.print("data");
+        Serial.println(data);
+        if (data <= 150 && data >= 70)
+        {
+            y = data - 70;
+            Serial.print("y : ");
+            Serial.println(y);
+        }
+        else
+        {
+            y = y;
+        }
+        if (data <= 60)
+        {
+            x = data;
+            Serial.print("x : ");
+            Serial.println(x);
+        }
+        else
+        {
+            x = x;
+        }
+    }
 
-      //test bluetooth
+    // pixel[num_pixel][0] = x;
+    // Serial.print("x");
+    // Serial.println(x);
+    // pixel[num_pixel][1] = y;
+    // Serial.print("y");
+    // Serial.println(y);
+    if (x >= 0 && x <= 80 && y >= 0 && y <= 160)
+    {
+        tft.drawPixel(y, x, ST77XX_GREEN);
+        // num_pixel++;
+    }
 
-      if (message.length() > 0) {
-      num_pixel++;
-      int x = 0, y = 0;
-      int pos = message.indexOf('/');
-      String subx = message.substring(0, pos);
-      String suby = message.substring(pos + 1, message.length());
-      x = subx.toInt();
-      y = suby.toInt();
-      tft.drawPixel(x, y, ST77XX_GREEN);
-      pixel[num_pixel][0]=x;
-      pixel[num_pixel][1]=y;
-      //Serial.println(message);
-      }*/
     if (num_pixel == 199)
     {
         num_pixel = 0;
@@ -97,29 +117,10 @@ void loop()
 
     readJoystick();
 
-    joyVal[0] = map(joyVal[0], 0, 1023, 130, 50);
+    joyVal[0] = map(joyVal[0], 0, 1023, 50, 130);
     joyVal[1] = map(joyVal[1], 0, 1023, 190, 210);
-    //  Serial.print(joyVal[0]);
-    //  Serial.print("\t");
-    //  Serial.println(joyVal[1]);
     master.write(joyVal[0]);
     master.write(joyVal[1]);
-
-    /*
-      byte buffer[4];
-      buffer[0] = (value >> 24) & 0xFF; // Extraire le premier octet
-      buffer[1] = (value >> 16) & 0xFF; // Extraire le deuxième octet
-      buffer[2] = (value >> 8) & 0xFF; // Extraire le troisième octet
-      buffer[3] = value & 0xFF; // Extraire le quatrième octet
-      for (int i = 0; i < 4; i++) {
-        Serial.println(buffer[i]);
-        master.write(buffer[i]); // Envoyer chaque octet individuellement
-      }
-    */
-
-    // master.write((uint8_t*)&value1, sizeof(value1));
-    // envoyer valeur Joystick  bluetooth
-
     tft.drawPixel(40, 80, ST77XX_GREEN);
 }
 
@@ -139,14 +140,15 @@ void readJoystick()
     }
     for (int i = 0; i < NUM_JOY; i++)
     {
-        Serial.print(F("Conv")), Serial.print(i);
-        Serial.print(F(" : "));
-        Serial.println(joyRawToPhys(joyVal[i]));
+        // Serial.print(F("Conv")), Serial.print(i);
+        // Serial.print(F(" : "));
+        // Serial.println(joyRawToPhys(joyVal[i]));
     }
     if (!digitalRead(joyBtn))
     {
-        Serial.println(F("Joy Button pressed"));
+        // Serial.println(F("Joy Button pressed"));
         centre();
+        master.write(250);
         delay(500);
     }
     num_pixel++;
@@ -212,15 +214,15 @@ void centre()
 
     diffx = (tft.width() / 2) - diffx;
     diffy = (tft.height() / 2) - diffy;
-    Serial.print(maxx);
-    Serial.print("\t");
-    Serial.print(minx);
-    Serial.print("\t");
-    Serial.print(maxy);
-    Serial.print("\t");
-    Serial.print(miny);
-    Serial.print("\t");
-    Serial.println(num_pixel);
+    // Serial.print(maxx);
+    // Serial.print("\t");
+    // Serial.print(minx);
+    // Serial.print("\t");
+    // Serial.print(maxy);
+    // Serial.print("\t");
+    // Serial.print(miny);
+    // Serial.print("\t");
+    // Serial.println(num_pixel);
     for (int nb = 0; nb < num_pixel; nb++)
     {
         pixel[nb][0] = pixel[nb][0] + diffx;
